@@ -3,12 +3,15 @@ package com.newtechieblog.wordpress.views.mathgame;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Locale;
 import java.util.Random;
+import java.util.Timer;
 
 public class Game extends AppCompatActivity {
 
@@ -27,6 +30,12 @@ public class Game extends AppCompatActivity {
     int realAnswer;
     int userScore = 0;
     int userLife = 3;
+
+    CountDownTimer timer;
+    private static final long START_TIMER_IN_MILLIS = 10000;
+    Boolean timer_running;
+    long time_left_in_millis = START_TIMER_IN_MILLIS;
+
 
 
     @Override
@@ -48,6 +57,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 userAnswer = Integer.valueOf(answer.getText().toString());
+                pauseTimer();
 
                 if (userAnswer == realAnswer) {
                     userScore = userScore + 10;
@@ -58,7 +68,6 @@ public class Game extends AppCompatActivity {
                     life.setText("" + userLife);
                     question.setText(R.string.question_wrong);
                 }
-
             }
         });
 
@@ -67,10 +76,10 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 answer.setText("");
                 gameContinue();
+                resetTimer();
 
             }
         });
-
     }
 
     public void gameContinue() {
@@ -78,10 +87,47 @@ public class Game extends AppCompatActivity {
         number2 = random.nextInt(100);
 
         realAnswer = number1 + number2;
-
-
         question.setText(number1 + " + " + number2);
+        startTimer();
+    }
 
+    public void startTimer() {
+        timer = new CountDownTimer(time_left_in_millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time_left_in_millis = millisUntilFinished;
+                updateText();
+            }
 
+            @Override
+            public void onFinish() {
+                timer_running = false;
+                pauseTimer();
+                resetTimer();
+                updateText();
+                userLife = userLife -1;
+                life.setText("" + userLife);
+                question.setText(R.string.timesup);
+            }
+        }.start();
+
+        timer_running = true;
+    }
+
+    public void updateText() {
+        int second  = (int)(time_left_in_millis / 1000) % 60;
+        String time_left = String.format(Locale.getDefault(),"%02d",second);
+        time.setText(time_left);
+    }
+
+    public void pauseTimer() {
+        timer.cancel();
+        timer_running = false;
+
+    }
+
+    public void resetTimer() {
+        time_left_in_millis = START_TIMER_IN_MILLIS;
+        updateText();
     }
 }
