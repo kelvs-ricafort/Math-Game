@@ -4,4 +4,13 @@
     <string name="addition">Addition</string>
     <string name="subtraction">Subtraction</string>
     <string name="multiplication">Multiplication</string>
+    <string name="score">Score:</string>
+    <string name="zero">0</string>
+    <string name="life">Life:</string>
+    <string name="three">3</string>
+    <string name="time">Time: </string>
+    <string name="sixty">60</string>
+    <string name="hint">Please write your answer here</string>
+    <string name="ok">OK</string>
+    <string name="next_question">Next Question</string>
 </resources>
