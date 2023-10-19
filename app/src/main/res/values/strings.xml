@@ -13,4 +13,6 @@
     <string name="hint">Please write your answer here</string>
     <string name="ok">OK</string>
     <string name="next_question">Next Question</string>
+    <string name="question_right">Congratulations, Your answer is true</string>
+    <string name="question_wrong">Sorry, your answer is wrong</string>
 </resources>
