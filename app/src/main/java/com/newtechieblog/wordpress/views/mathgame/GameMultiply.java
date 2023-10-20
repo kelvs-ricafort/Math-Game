@@ -2,18 +2,19 @@ package com.newtechieblog.wordpress.views.mathgame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 import java.util.Random;
-import java.util.Timer;
 
-public class Game extends AppCompatActivity {
+public class GameMultiply extends AppCompatActivity {
 
     TextView score;
     TextView life;
@@ -32,16 +33,14 @@ public class Game extends AppCompatActivity {
     int userLife = 3;
 
     CountDownTimer timer;
-    private static final long START_TIMER_IN_MILLIS = 10000;
+    private static final long START_TIMER_IN_MILLIS = 60000;
     Boolean timer_running;
     long time_left_in_millis = START_TIMER_IN_MILLIS;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_game_addition);
 
         score = findViewById(R.id.textViewScore);
         life = findViewById(R.id.textViewLife);
@@ -59,6 +58,8 @@ public class Game extends AppCompatActivity {
                 userAnswer = Integer.valueOf(answer.getText().toString());
                 pauseTimer();
 
+                realAnswer = number1 * number2;
+
                 if (userAnswer == realAnswer) {
                     userScore = userScore + 10;
                     score.setText("" + userScore);
@@ -75,9 +76,16 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 answer.setText("");
-                gameContinue();
                 resetTimer();
-
+                if (userLife <= 0) {
+                    Toast.makeText(getApplicationContext(), R.string.game_over, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), Result.class);
+                    intent.putExtra("score", userScore);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    gameContinue();
+                }
             }
         });
     }
@@ -86,8 +94,7 @@ public class Game extends AppCompatActivity {
         number1 = random.nextInt(100);
         number2 = random.nextInt(100);
 
-        realAnswer = number1 + number2;
-        question.setText(number1 + " + " + number2);
+        question.setText(number1 + " x " + number2);
         startTimer();
     }
 
@@ -105,7 +112,7 @@ public class Game extends AppCompatActivity {
                 pauseTimer();
                 resetTimer();
                 updateText();
-                userLife = userLife -1;
+                userLife = userLife - 1;
                 life.setText("" + userLife);
                 question.setText(R.string.timesup);
             }
@@ -115,8 +122,8 @@ public class Game extends AppCompatActivity {
     }
 
     public void updateText() {
-        int second  = (int)(time_left_in_millis / 1000) % 60;
-        String time_left = String.format(Locale.getDefault(),"%02d",second);
+        int second = (int) (time_left_in_millis / 1000) % 60;
+        String time_left = String.format(Locale.getDefault(), "%02d", second);
         time.setText(time_left);
     }
 

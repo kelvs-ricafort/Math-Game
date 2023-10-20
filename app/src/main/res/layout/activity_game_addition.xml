@@ -6,7 +6,7 @@
     android:background="@drawable/second"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".Game">
+    tools:context=".GameAddition">
 
     <LinearLayout
         android:layout_width="match_parent"

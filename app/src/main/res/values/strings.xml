@@ -16,4 +16,9 @@
     <string name="question_right">Congratulations, Your answer is true</string>
     <string name="question_wrong">Sorry, your answer is wrong</string>
     <string name="timesup">Sorry! Time is up</string>
+    <string name="congrats">Congratulations</string>
+    <string name="scoreText">Score: 20</string>
+    <string name="play_again">Play Again?</string>
+    <string name="exit">Exit</string>
+    <string name="game_over">Game Over</string>
 </resources>
